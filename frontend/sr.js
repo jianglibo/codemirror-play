@@ -1,4 +1,4 @@
-var startServer = require("../backend/public/./dist/bundle")
+var startServer = require("./util/bundle.min.js")
 
 startServer();
 

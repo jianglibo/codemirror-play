@@ -26,7 +26,20 @@ export default {
 			plugins: [terser()]
 		}
 	],
-	plugins: [typescript(), json(), nodeResolve(), commonjs(), sizes()]
+	plugins: [typescript(), json(), nodeResolve({
+		// exportConditions: ['node']
+	}), commonjs(
+		// {
+		// 	dynamicRequireTargets: [
+		// 		// include using a glob pattern (either a string or an array of strings)
+		// 		'node_modules/shelljs/**/*.js',
+
+		// 		// exclude files that are known to not be required dynamically, this allows for better optimizations
+		// 		'!node_modules/shelljs/node_modules/*',
+		// 		'node_modules/shelljs/package/shell.js',
+		// 	]
+		// }
+	), sizes()]
 };
 // , html(), buble(), sizes(), json(),, nodeResolve(),nodePolyfills(),, multi()
 // buble({ transforms: { dangerousForOf: true } }),
