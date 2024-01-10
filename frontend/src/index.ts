@@ -10,7 +10,7 @@ import { autocompletion, completeFromList, CompletionContext, CompletionResult, 
 
 // invoke ajax by fetch api. path /admin/shell, return stirng lines
 
-function ajaxShell(path: string, cmd: string, extras: { [key: string]: any }, cb: (lines: string[]) => void) {
+async function ajaxShell(path: string, cmd: string, extras: { [key: string]: any }, cb: (lines: string[]) => void) {
 	// add query parameter cmd to path, use GET method
 	const url = new URL(path, window.location.origin);
 	// Add the cmd parameter
@@ -20,17 +20,20 @@ function ajaxShell(path: string, cmd: string, extras: { [key: string]: any }, cb
 		url.searchParams.append(key, value);
 	}
 
-	fetch(url.toString())
-		.then((response) => {
-			return response.text();
-		})
-		.then((text) => {
-			const lines = text.split('\n');
-			cb(lines);
-		})
-		.catch((err) => {
-			console.log(err);
-		});
+	const response = await fetch(url, {
+		method: 'GET',
+		// headers: {
+		// 	'Content-Type': 'application/json',
+		// },
+		// body: JSON.stringify({
+		// 	text: ctx.state.sliceDoc(from, to), // The partially typed word
+		// }),
+	})
+
+	const data = await response.json()
+	console.log(data)
+	const lines = data.data.split("\n")
+	cb(lines)
 }
 
 
@@ -41,10 +44,9 @@ function cm6(wrap: HTMLElement, doc: string | null, extras: { [key: string]: any
 	const mykb: KeyBinding = {
 		key: 'Ctrl-Enter', run: (ev) => {
 			const ms = ev.state.selection.main
-
 			// ev.state.doc.lineAt
 			// how to get the content current line
-			console.log(ms)
+			// console.log(ms)
 			const line = ev.state.doc.lineAt(ms.from)
 			console.log("line: ", line)
 			console.log("line text: ", line.text)
@@ -92,8 +94,12 @@ function cm6(wrap: HTMLElement, doc: string | null, extras: { [key: string]: any
 			const token = ctx.state.wordAt(ctx.pos)
 			const line = ctx.state.doc.lineAt(ctx.pos)
 			// get the word value
-			const from = token?.from || ctx.pos;
+			let from = token?.from || ctx.pos;
 			const to = ctx.pos;
+			if (from === 1) { // it's a little bug.
+				from = 0
+			}
+			console.log({from, to})
 			const partWord = ctx.state.sliceDoc(from, to)
 			// Make the AJAX request
 			const url = new URL("/completion", window.location.origin);

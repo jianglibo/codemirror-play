@@ -9,6 +9,36 @@
 
 <body>
 	<p>Backend</p>
+
+	<script>
+		// use fetch api to get data from backend, /completion and /execute
+		// Fetch data from /completion endpoint
+		fetch('/completion')
+			.then(response => response.json())
+			.then(data => console.log(data))
+			.catch(error => console.error('Error:', error));
+
+		// Fetch data from /execute endpoint
+		// Define your cmd parameter
+		let cmd = 'ps aux, hello world';
+
+		// Create a URL object
+		let url = new URL('/execute', window.location.origin);
+
+		// Create a URLSearchParams object
+		let params = new URLSearchParams();
+		params.append('cmd', cmd);
+
+		// Append the parameters to the URL
+		url.search = params.toString();
+
+		fetch(url)
+			.then(response => response.json())
+			.then(data => console.log(data))
+			.catch(error => console.error('Error:', error));
+
+	</script>
+
 	<script>
 		document.write('<script src="http://' + (location.host || 'localhost').split(':')[0] +
 			':35729/livereload.js?snipver=1"></' + 'script>')
