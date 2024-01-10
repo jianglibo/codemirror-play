@@ -5,8 +5,7 @@ var shelljs = require("shelljs");
 
 export default () => {
 	const app: Express = express();
-	const port = 3000;
-
+	const port = process.env.EXPRESS_PORT || 3000;
 	app.use(express.static('public'))
 
 	let cache: unknown = null;
