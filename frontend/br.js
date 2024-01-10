@@ -1,5 +1,5 @@
 var livereload = require('livereload');
-var lrport = 35729;
+var lrport = process.env.TOBF_LIVERELOAD_PORT || 35729;
 var server = livereload.createServer({
 	port: lrport,
 	exts: ["html", "js"],
