@@ -2,18 +2,22 @@ import express, { Express, Request, Response } from "express";
 var shelljs = require("shelljs");
 // import shelljs from "shelljs"
 
+
 export default () => {
 	const app: Express = express();
 	const port = 3000;
 
 	app.use(express.static('public'))
 
-	app.get("/completion", (req: Request, res: Response) => {
+	app.get("/completion", async (req: Request, res: Response) => {
+		const response = await fetch('http://example.com');
+		const data = await response.json();
 		res.send({
 			data: [
 				"free -mh, Display amount of free and used memory in the system",
 				"df -lh / /mnt/g, report file system disk space usage",
 				"ps aux, report a snapshot of the current processes",
+				"diff -bur folder1 folder2, compare two folders recursively",
 			]
 		});
 	});

@@ -13,6 +13,8 @@ windows:
         - yarn sr
       - shell_command:
         - yarn br
+        # - yarn dlx live-server --port=35729 ./public
+        # - npx live-server --port=35729 ./public
       - shell_command:
         - yarn dev
       - pane
