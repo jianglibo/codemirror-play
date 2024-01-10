@@ -8,7 +8,7 @@
 <body>
   <div id="cid-terminal"></div>
   <script src="dist/bundle.js"></script>
-  <div>Hello </div>
+  <div>Frontend </div>
   <div id="outer">
     <div class="cm-edit-wrap">
       <input type="hidden" name="code" value="console.log('hello world')" data-lang="javascript"
@@ -22,7 +22,7 @@
       if (cm_edit) {
         return
       }
-      const { view, setLanguage } = cm6Shell(cm_wrap, null, {vmid: 66}, (v) => {
+      const { view, setLanguage } = cm6Shell(cm_wrap, null, { vmid: 66 }, (v) => {
         ipt.value = v;
       });
       const mh = cm_wrap.style.minHeight ? cm_wrap.style.minHeight : '200px';
@@ -51,6 +51,11 @@
     const cmwrap = document.querySelector('.cm-edit-wrap');
     wrapCm6(cmwrap);
 
+  </script>
+
+  <script>
+    document.write('<script src="http://' + (location.host || 'localhost').split(':')[0] +
+      ':35729/livereload.js?snipver=1"></' + 'script>')
   </script>
 </body>
 

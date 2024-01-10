@@ -4,7 +4,9 @@ export default () => {
 	const app: Express = express();
 	const port = 3000;
 
-	app.get("/", (req: Request, res: Response) => {
+	app.use(express.static('public'))
+
+	app.get("/completion", (req: Request, res: Response) => {
 		res.send("Express + TypeScript Server");
 	});
 

@@ -134,7 +134,7 @@ function cm6(wrap: HTMLElement, doc: string | null, extras: { [key: string]: any
 		themeConf.of(tm),
 		keymap.of([mykb, indentWithTab]),
 		languageConf.of(StreamLanguage.define(shell)),
-		EditorView.updateListener.of(function (e) {
+		EditorView.updateListener.of(function (e: any) {
 			// console.log(e.state)
 			if (cb)
 				cb(e.state.doc.toString());
