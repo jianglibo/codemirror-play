@@ -1,0 +1,57 @@
+<!doctype html>
+<html lang="en">
+
+<head>
+  <meta charset="utf-8">
+  <title>Rollup Bundle</title>
+
+<body>
+  <div id="cid-terminal"></div>
+  <script src="dist/bundle.js"></script>
+  <div>Hello </div>
+  <div id="outer">
+    <div class="cm-edit-wrap">
+      <input type="hidden" name="code" value="console.log('hello world')" data-lang="javascript"
+        data-cm6-settings="{&quot;editMode&quot;: &quot;normal&quot;,&quot;gpt&quot;: {&quot;delay&quot;:1000}}">
+    </div>
+  </div>
+  <script>
+    function wrapCm6(cm_wrap) {
+      const ipt = cm_wrap.querySelector('input');
+      const cm_edit = cm_wrap.querySelector('.cm-editor');
+      if (cm_edit) {
+        return
+      }
+      const { view, setLanguage } = cm6Shell(cm_wrap, null, {vmid: 66}, (v) => {
+        ipt.value = v;
+      });
+      const mh = cm_wrap.style.minHeight ? cm_wrap.style.minHeight : '200px';
+      // set style min-height for myv.dom
+      view.dom.style.minHeight = mh;
+      const maxh = cm_wrap.style.maxHeight ? cm_wrap.style.maxHeight : '600px';
+      view.dom.style.maxHeight = maxh;
+      cm_wrap.appendChild(view.dom);
+      ipt.addEventListener('change', function (evt) {
+        view.dispatch({
+          changes: {
+            from: 0,
+            to: view.state.doc.length,
+            insert: ipt.value
+          }
+        });
+      });
+      cm_wrap.dispatchEvent(new CustomEvent("cm6inserted", {
+        detail: { setLanguage: setLanguage },
+        bubbles: true,
+        cancelable: true,
+        composed: false,
+      }));
+    }
+
+    const cmwrap = document.querySelector('.cm-edit-wrap');
+    wrapCm6(cmwrap);
+
+  </script>
+</body>
+
+</html>
